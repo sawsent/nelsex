@@ -40,7 +40,7 @@ to_file() {
 log_history() {
     if [ "$LOG_MODE" = "never" ]; then
         logger debug logger "Didn't log histry as LOG_MODE is set to 'never'"
-        exit 0
+        return 0
     fi
     if [ "$LOG_MODE" = "one" ]; then
         logger debug logger "LOG_MODE is set to 'one', clearing history file '$NELSON_HISTORY'"

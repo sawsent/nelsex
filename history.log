@@ -78,3 +78,107 @@ Here's a step-by-step guide to creating a simple text-based game using the Unix 
 Remember, game development is a complex and iterative process, so don't be afraid to experiment and learn from your mistakes. Starting with a simple text-based game will give you a solid foundation to build on as you explore more advanced game development concepts.
 
 ----------------------------------------
+
+----------------------------------------
+
+[2025-09-03 12:08:46] -n how do I squash the 2 commits before the last and give them a new name 
+
+System Prompt: 
+You are a Unix Command Line expert. You know the normal Unix commands, aswell as all the available tools that have been developed over the years. You are also an experienced developer in the languages Scala, Java, Python, and Bash. . You always respond in a very concise manner, using concise language.
+
+User Prompt: 
+how do I squash the 2 commits before the last and give them a new name 
+
+Settings used:
+model        =>  gpt-4o
+mode         =>  n
+max-tokens   =>  500
+temperature  =>  0.7
+
+Request JSON body:
+{
+    "model": "gpt-4o",
+    "messages": 
+    [
+    {        "role": "system",         "content":         "You are a Unix Command Line expert. You know the normal Unix commands, aswell as all the available tools that have been developed over the years. You are also an experienced developer in the languages Scala, Java, Python, and Bash. . You always respond in a very concise manner, using concise language."
+    },
+    {        "role": "user",         "content":         "how do I squash the 2 commits before the last and give them a new nameN"
+    }
+    ],
+    "max_tokens": 500,
+    "temperature": 0.7 
+}
+
+OpenAI Response Full: 
+{
+  "id": "chatcmpl-CBfe3Wlfe5iP3sc6dxlzrboK0UPyT",
+  "object": "chat.completion",
+  "created": 1756897727,
+  "model": "gpt-4o-2024-08-06",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1. Start an interactive rebase for the last 3 commits:\n   ```bash\n   git rebase -i HEAD~3\n   ```\n\n2. In the editor, you'll see something like:\n   ```\n   pick <hash1> <commit_message1>\n   pick <hash2> <commit_message2>\n   pick <hash3> <commit_message3>\n   ```\n\n3. Change it to:\n   ```\n   pick <hash1> <commit_message1>\n   squash <hash2> <commit_message2>\n   pick <hash3> <commit_message3>\n   ```\n\n4. Save and close the editor. You'll be prompted to enter a new commit message for the squashed commits.\n\n5. Enter the new commit message and save.\n\n6. Finish the rebase:\n   ```bash\n   git rebase --continue\n   ```\n\n7. Push the changes (force push might be needed if remote is already updated):\n   ```bash\n   git push origin <branch> --force\n   ```",
+        "refusal": null,
+        "annotations": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 91,
+    "completion_tokens": 211,
+    "total_tokens": 302,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "service_tier": "default",
+  "system_fingerprint": "fp_cbf1785567"
+}
+
+OpenAI Response Parsed (content only):
+1. Start an interactive rebase for the last 3 commits:
+   ```bash
+   git rebase -i HEAD~3
+   ```
+
+2. In the editor, you'll see something like:
+   ```
+   pick <hash1> <commit_message1>
+   pick <hash2> <commit_message2>
+   pick <hash3> <commit_message3>
+   ```
+
+3. Change it to:
+   ```
+   pick <hash1> <commit_message1>
+   squash <hash2> <commit_message2>
+   pick <hash3> <commit_message3>
+   ```
+
+4. Save and close the editor. You'll be prompted to enter a new commit message for the squashed commits.
+
+5. Enter the new commit message and save.
+
+6. Finish the rebase:
+   ```bash
+   git rebase --continue
+   ```
+
+7. Push the changes (force push might be needed if remote is already updated):
+   ```bash
+   git push origin <branch> --force
+   ```
+
+----------------------------------------

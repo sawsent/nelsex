@@ -4,6 +4,7 @@ source $NELSON_LOCATION/src/config/system_prompts.sh
 source $NELSON_LOCATION/src/display/messages.sh
 source $NELSON_LOCATION/src/logging/output_log_template.sh
 source $NELSON_LOCATION/src/logging/logger.sh
+source $NELSON_LOCATION/src/util/string_utils.sh
 
 
 SYSTEM_PROMPT="$DEFAULT_SYSTEM_PROMPT"
@@ -28,6 +29,11 @@ for arg in "$@"; do
             exit 0
             ;;
 
+        --history)
+            $OUTPUT_DISPLAYER "$NELSON_HISTORY" 
+            exit 0
+            ;;
+
         --wtf)
             LAST_COMMAND=$(tail -n 2 "$HISTFILE" | head -n 1 | sed 's/.*;//' )
 
@@ -45,6 +51,11 @@ for arg in "$@"; do
             fi
 
             MODE="wtf"
+            ;;
+
+        --log)
+            echo "$NELSON_HISTORY"
+            exit 0
             ;;
 
         --debug)
@@ -94,6 +105,8 @@ for arg in "$@"; do
 esac
 done
 
+logger debug "Full user prompt collected: $USER_PROMPT"
+
 if [ "$MODE" != "custom" ]; then
 
     SYSTEM_PROMPT=$(get_system_prompt "$MODE")
@@ -116,11 +129,7 @@ if [ "$MODE" = "wtf" ]; then
 fi
 
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
-RESPONSE=$(
-curl -s https://api.openai.com/v1/chat/completions \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer $OPENAI_API_KEY" \
-    -d "{
+REQUEST="{
     \"model\": \"$MODEL\",
     \"messages\": 
     [
@@ -132,12 +141,18 @@ curl -s https://api.openai.com/v1/chat/completions \
     {\
         \"role\": \"user\", \
         \"content\": \
-        \"$USER_PROMPT\"
+        \"$(replaceNewLines $SYSTEM_NEWLINE $(replaceDoubleQuotesWithSingleQuotes $USER_PROMPT))\"
     }
     ],
     \"max_tokens\": $MAX_TOKENS,
     \"temperature\": $TEMPERATURE 
-}" 2>&1
+}"
+logger debug "Sending request with body: $REQUEST"
+RESPONSE=$(
+curl -s https://api.openai.com/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $OPENAI_API_KEY" \
+    -d "$REQUEST" 2>&1
 )
 
 PARSED_RESPONSE=$(echo "$RESPONSE" | jq --raw-output '.choices[0].message.content')
@@ -148,7 +163,7 @@ fi
 # Logging to file
 
 # DONT CHANGE THIS, SEE 'log_template.sh' TO MAKE CHANGES TO THE LOG TEMPLATE
-log=$(get_log "$TIMESTAMP" "$DEBUG_FULL_COMMAND" "$SYSTEM_PROMPT" "$USER_PROMPT" "$MODEL" "$MODE" "$MAX_TOKENS" "$TEMPERATURE" "$RESPONSE" "$PARSED_RESPONSE")  
+log=$(get_log "$TIMESTAMP" "$DEBUG_FULL_COMMAND" "$SYSTEM_PROMPT" "$USER_PROMPT" "$MODEL" "$MODE" "$MAX_TOKENS" "$TEMPERATURE" "$REQUEST" "$RESPONSE" "$PARSED_RESPONSE")  
 logger log-history "$log"
 
 # print response through output displayer of choice
@@ -165,7 +180,9 @@ if [ "$MODE" = "command" ] || [ "$MODE" = "com" ]; then
         read -p "[enter] to copy command to clipboard. Other to not. >> " answer
         if [ "$answer" = "" ]; then 
             echo -n "$PARSED_RESPONSE" | pbcopy
-            echo "(Coppied to clipboard)"
+            echo "(Copied to clipboard)"
+        else
+            echo "(Command not copied)"
         fi
     fi
 fi

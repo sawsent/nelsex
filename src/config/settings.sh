@@ -6,6 +6,7 @@ export DEFAULT_MODEL="gpt-4o"
 export DEFAULT_MAX_TOKENS=500
 export DEFAULT_TEMPERATURE=0.7
 export DEFAULT_SYSTEM_PROMPT="You are a programming expert, especially when it comes to CLI tools. You know how the Unix System Command Line works, to a TEE."
+export SYSTEM_NEWLINE="NEWLINE"
 export DEFAULT_MODE="command"
 
 # Command mode
@@ -29,7 +30,12 @@ export SHOW_COMMAND_BEFORE_WTF_RESPONSE=false
 # Logging
 export OUTPUT_FILE="$NELSON_LOCATION/output.log"
 export NELSON_HISTORY="$NELSON_LOCATION/history.log"
-export LOG_MODE="one" # "never" / "one" / "always"
+
+# "never" / "one" / "always"
+# never: never logs commands
+# one: will keep the last command in the log
+# always: will append the latest run command to the log file
+export LOG_MODE="always"
 
 # flags
 export USE_DEFAULT_ON_SYSTEM_PROMPT_FLAG_ERROR=false

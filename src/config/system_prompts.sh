@@ -1,6 +1,6 @@
 source $NELSON_LOCATION/src/config/settings.sh
 
-BASE="You are a Unix Command Line expert. You know the normal Unix commands, aswell as all the available tools that have been developed over the years"
+BASE="You are a Unix Command Line expert. You know the normal Unix commands, aswell as all the available tools that have been developed over the years. You are also an experienced developer in the languages Scala, Java, Python, and Bash. "
 
 get_system_prompt() {
 

@@ -8,8 +8,9 @@ USED_MODEL="$5"
 USED_MODE="$6"
 USED_MAX_TOKENS="$7"
 USED_TEMPERATURE="$8"
-OPENAI_RESPONSE="$9"
-OPENAI_RESPONSE_PARSED="${10}"
+REQUEST_JSON="$9"
+OPENAI_RESPONSE="${10}"
+OPENAI_RESPONSE_PARSED="${11}"
 
 # log template starts here
 echo "
@@ -28,6 +29,9 @@ model        =>  $USED_MODEL
 mode         =>  $USED_MODE
 max-tokens   =>  $USED_MAX_TOKENS
 temperature  =>  $USED_TEMPERATURE
+
+Request JSON body:
+$REQUEST_JSON
 
 OpenAI Response Full: 
 $OPENAI_RESPONSE
