@@ -1,4 +1,7 @@
-# nelson
+# bash-nelson
+
+I am creating a better version in rust. Check it out [here](https://github.com/sawsent/nelson)
+
 Nelson is a Unix Command Line Tool written in Bash that allows for AI suggestions, error explanations, and more, all straight from the terminal. Currently using OpenAI API (because that's what I know), planning to move into an open source, local LLM in the future. 
 
 ---
@@ -26,7 +29,7 @@ git clone https://github.com/sawsent/nelson.git
 ```sh
 # .zshrc / .bashrc / .profile / ...
 export OPENAI_API_KEY="your-openai-key"
-export NELSON_LOCATION="path/to/nelson"
+export NELSON_LOCATION="path/to/bash-nelson"
 alias nelson="$NELSON_LOCATION/src/main.sh"
 ```
 ### Step 3: Change shell HISTFILE in [settings.sh](src/config/settings.sh)
